@@ -1,15 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="15dp"
+        android:text="Punkt A"
+        android:textSize="30sp" />
+
     <Spinner
+        android:id="@+id/spinnerA"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:spinnerMode="dropdown"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="15dp"
+        android:text="Punkt B"
+        android:textSize="30sp" />
+
+    <Spinner
+        android:id="@+id/SpinnerB"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:spinnerMode="dialog"/>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <EditText
+            android:paddingHorizontal="10dp"
+            android:layout_marginVertical="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Odległość między miastem A i B"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZMIEŃ"
+            android:paddingVertical="10dp"
+            android:layout_marginVertical="15dp" />
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:text="TRASA"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="15dp"
+        android:textSize="18sp" />
 
-    </Spinner>
 
 </LinearLayout>
