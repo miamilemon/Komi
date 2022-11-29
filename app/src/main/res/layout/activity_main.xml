@@ -28,10 +28,10 @@
         android:textSize="30sp" />
 
     <Spinner
-        android:id="@+id/SpinnerB"
+        android:id="@+id/spinnerB"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:spinnerMode="dialog"/>
+        android:spinnerMode="dropdown" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
