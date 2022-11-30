@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/editTextDystans"
             android:paddingHorizontal="10dp"
             android:layout_marginVertical="15dp"
             android:layout_width="wrap_content"
