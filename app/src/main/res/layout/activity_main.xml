@@ -59,6 +59,7 @@
         android:paddingVertical="10dp"
         android:text="TRASA"/>
     <TextView
+        android:id="@+id/textWynikTrasa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="15dp"

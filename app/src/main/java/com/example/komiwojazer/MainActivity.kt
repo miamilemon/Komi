@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet.Layout
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Random
 
 
 /*
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val editDystans : EditText = findViewById(R.id.editTextDystans)
         val zmiana : Button = findViewById(R.id.buttonZmiana)
         val trasa : Button = findViewById(R.id.buttonTrasa)
+        val textWynik: TextView = findViewById(R.id.textWynikTrasa)
         val MyLayoutView : View = findViewById(R.id.MyLayout)
         //Macierz odległości między miastami wypełniona 0
         val miasta = List<MutableList<Int>>(8){
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         for(i in 0..7){
             for(j in i+1..7){
                 //Generowanie losowych liczb w przedziale 1,1089
-                kotlin.random.Random.nextInt(1,1089).let{
+                Random().nextInt(1089).let{
                     //Przypisywanie wygenerowanej losowo liczby do tablicy
                     //Dla odległości między A i B daje taką samą wartość jak między B i A
                     miasta[i][j]=it
@@ -98,7 +100,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         trasa.setOnClickListener(View.OnClickListener {
-            var screenshot: Bitmap? = null
+            textWynik.setText("")
+            /*    var screenshot: Bitmap? = null
             val file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             screenshot = Bitmap.createBitmap(MyLayoutView.drawingCache)
             val canvas = Canvas(screenshot)
@@ -106,7 +109,63 @@ class MainActivity : AppCompatActivity() {
             val plik: FileOutputStream = FileOutputStream(file.absolutePath+"/komiwojazer.jpg")
             screenshot.compress(Bitmap.CompressFormat.JPEG, 100, plik)
             plik.flush()
-            plik.close()
+            plik.close()*/
+            // This algorithm uses the nearest neighbor heuristic to solve the Traveling Salesman Problem using random matrix
+
+            val size = 8
+            // Create array to store the visited cities
+            val visited = BooleanArray(size)
+
+            // Create array to store the shortest path
+            val path = IntArray(size)
+
+            // Assign starting city
+            var currentCity = 0
+
+            // Add starting city to the visited list
+            visited[currentCity] = true
+
+            // Start the loop
+            for (i in 0 until size - 1) {
+                // Create a variable to hold the shortest distance
+                var min = Int.MAX_VALUE
+
+                // Create a variable to store the index of the city with the shortest distance
+                var cityIndex = 0
+
+                // Find the city with the shortest distance
+                for (j in 0 until size) {
+                    if (!visited[j] && miasta[currentCity][j] < min) {
+                        min = miasta[currentCity][j]
+                        cityIndex = j
+                    }
+                }
+
+                // Add the city to the path and mark it as visited
+                path[i] = cityIndex
+                visited[cityIndex] = true
+
+                // Update the current city
+                currentCity = cityIndex
+            }
+
+            // Add the last city to the path
+            path[size - 1] = 0
+
+            // Print the shortest path
+            //println("The shortest path is:")
+            for (i in 0 until size) {
+                textWynik.append("${path[i]} -> ")
+            }
+            //println("0")
+
+            // Calculate and print the cost of the path
+            var cost = 0
+            for (i in 0 until size - 1) {
+                cost += miasta[path[i]][path[i + 1]]
+            }
+            textWynik.append("\nCost: $cost")
+
         })
 
 

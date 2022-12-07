@@ -3,19 +3,11 @@
     <string-array name="miasta">
         <item>Gdynia</item>
         <item>Warszawa</item>
-        <item>Wrocław</item>
-        <item>Poznań</item>
         <item>Wólka Kosowska</item>
-        <item>Warszawa</item>
         <item>Kartowice</item>
         <item>Bęczkowice</item>
         <item>Ruda Wołoska</item>
         <item>Radzymin</item>
-        <item>Wejherowo</item>
-        <item>Rumia</item>
         <item>Wołomin</item>
-        <item>Pruszków</item>
-        <item>Reda</item>
-        <item>Radom</item>
     </string-array>
 </resources>
