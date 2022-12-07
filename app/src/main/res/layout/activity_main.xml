@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/MyLayout">
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,8 +42,10 @@
             android:layout_marginVertical="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:hint="Odległość między miastem A i B"/>
         <Button
+            android:id="@+id/buttonZmiana"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ZMIEŃ"
@@ -50,6 +53,7 @@
             android:layout_marginVertical="15dp" />
     </LinearLayout>
     <Button
+        android:id="@+id/buttonTrasa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"

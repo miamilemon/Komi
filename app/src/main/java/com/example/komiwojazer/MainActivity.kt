@@ -1,14 +1,18 @@
 package com.example.komiwojazer
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Environment
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import java.util.*
-import kotlin.random.Random.Default.nextInt
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet.Layout
+import java.io.File
+import java.io.FileOutputStream
+
 
 /*
 Do zrobienia(plan projektu):
@@ -17,8 +21,8 @@ Do zrobienia(plan projektu):
 - Macierz wypełniana trójkątem który powoduje, że odległości są takie same z miasta A do B i z B do A [X]
 - Wykrywanie zaznaczonych elementów na spinnerze [X]
 - Pokazywanie odległości przy zaznaczeniu miast [X]
-- Gdy są dwa te same miasta to nie można zmienić odległości [ ]
-- Zmiana odległości według zasad działania [ ]
+- Gdy są dwa te same miasta to nie można zmienić odległości [X]
+- Zmiana odległości według zasad działania [X]
 - Zrzut ekranu zapisywany do galerii [ ]
 - Algorytm, którego funkcjonalność działa [ ]
  */
@@ -31,14 +35,17 @@ class MainActivity : AppCompatActivity() {
         val spinnerA : Spinner = findViewById(R.id.spinnerA)
         val spinnerB : Spinner = findViewById(R.id.spinnerB)
         val editDystans : EditText = findViewById(R.id.editTextDystans)
+        val zmiana : Button = findViewById(R.id.buttonZmiana)
+        val trasa : Button = findViewById(R.id.buttonTrasa)
+        val MyLayoutView : View = findViewById(R.id.MyLayout)
         //Macierz odległości między miastami wypełniona 0
-        val miasta = List<MutableList<Int>>(16){
-            MutableList<Int>(16){0}
+        val miasta = List<MutableList<Int>>(8){
+            MutableList<Int>(8){0}
         }
         //Pętla wypełniająca macierz z odległościami, losowymi elementami
         //Pętla w postaci trójkąta, która powoduje że między tymi samymi punktami odległość pozostaje 0
-        for(i in 0..15){
-            for(j in i+1..15){
+        for(i in 0..7){
+            for(j in i+1..7){
                 //Generowanie losowych liczb w przedziale 1,1089
                 kotlin.random.Random.nextInt(1,1089).let{
                     //Przypisywanie wygenerowanej losowo liczby do tablicy
@@ -78,6 +85,29 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+        zmiana.setOnClickListener {
+            if(!editDystans.text.isNullOrEmpty()){
+                if(spinnerA.selectedItemId.toInt() == spinnerB.selectedItemId.toInt()){
+
+                }else{
+                    miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
+                    miasta[spinnerB.selectedItemId.toInt()][spinnerA.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
+                }
+            }
+        }
+
+        trasa.setOnClickListener(View.OnClickListener {
+            var screenshot: Bitmap? = null
+            val file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            screenshot = Bitmap.createBitmap(MyLayoutView.drawingCache)
+            val canvas = Canvas(screenshot)
+            MyLayoutView.draw(canvas)
+            val plik: FileOutputStream = FileOutputStream(file.absolutePath+"/komiwojazer.jpg")
+            screenshot.compress(Bitmap.CompressFormat.JPEG, 100, plik)
+            plik.flush()
+            plik.close()
+        })
 
 
     }
