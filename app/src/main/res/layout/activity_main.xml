@@ -50,14 +50,17 @@
             android:layout_height="wrap_content"
             android:text="ZMIEŃ"
             android:paddingVertical="10dp"
-            android:layout_marginVertical="15dp" />
+            android:layout_marginVertical="15dp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/cardview_shadow_end_color"/>
     </LinearLayout>
     <Button
         android:id="@+id/buttonTrasa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"
-        android:text="TRASA"/>
+        android:text="TRASA"
+        android:backgroundTint="@color/cardview_dark_background"/>
     <TextView
         android:id="@+id/textWynikTrasa"
         android:layout_width="wrap_content"
