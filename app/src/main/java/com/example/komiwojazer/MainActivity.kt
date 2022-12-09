@@ -74,19 +74,27 @@ class MainActivity : AppCompatActivity() {
             spinnerB.adapter = adapter
         }
 
+        //Funkcja sprawdzająca wybrane elementy ze spinnera i wypisujące odglełość z macierzy między tymi elementami do pola tekstowego
+        fun sprawdzOdleglosc(){
+            editDystans.setText(miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()].toString())
+        }
+
+        //W przypadku zmiany zaznaczonego elementu w spinnerze wywołuje funkcje sprawdzającą
         spinnerA.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                editDystans.setText(miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()].toString())
+                //Wywołanie funkcji która sprawdza odległość
+                sprawdzOdleglosc()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
         }
-
+        //W przypadku zmiany zaznaczonego elementu w spinnerze wywołuje funkcje sprawdzającą
         spinnerB.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                editDystans.setText(miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()].toString())
+                //Wywołanie funkcji która sprawdza odległość
+                sprawdzOdleglosc()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -110,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         trasa.setOnClickListener(View.OnClickListener {
+            //Czyszcenie tekstu w razie gdyby wcześniej już coś tam było np. poprzedni wynik działania programu
             textWynik.setText("")
 
             // Algorytm działa na wyżej stworzonej macierzy, polega na heurystyce znajdywaniu najbliższego sąsiada
