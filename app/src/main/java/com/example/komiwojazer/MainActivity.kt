@@ -3,22 +3,17 @@ package com.example.komiwojazer
 import android.app.PendingIntent.getActivity
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Random
-import android.app.Activity
-import android.provider.MediaStore
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.Fragment
-import java.net.URI
+import android.os.Handler
+import androidx.annotation.RequiresApi
 
 
 /*
@@ -117,10 +112,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        trasa.setOnClickListener(View.OnClickListener {
-            //Czyszcenie tekstu w razie gdyby wcześniej już coś tam było np. poprzedni wynik działania programu
-            textWynik.setText("")
-
+        fun liczenieTrasy(){
             // Algorytm działa na wyżej stworzonej macierzy, polega na heurystyce znajdywaniu najbliższego sąsiada
 
             val size = 8
@@ -173,7 +165,10 @@ class MainActivity : AppCompatActivity() {
                 cost += miasta[path[i]][path[i + 1]]
             }
             textWynik.append("\nCałkowita odległość: $cost")
+        }
 
+        @RequiresApi(Build.VERSION_CODES.Q)
+        fun zrzutEkranu(){
             //Zrzut ekranu do galerii
             //Uzyskanie widoku view
             val activity = this
@@ -190,6 +185,7 @@ class MainActivity : AppCompatActivity() {
 
             //Stworzenie ścieżki dla pliku
             val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "screenshot.png"
+
             //Stworzenie pliku
             val file = File(filePath)
             //Zapis pliku
@@ -207,6 +203,15 @@ class MainActivity : AppCompatActivity() {
                 //Wypisanie błędu w konsoli w przypadku niepowodzenia
                 e.printStackTrace()
             }
+        }
+
+        trasa.setOnClickListener(View.OnClickListener {
+            //Czyszcenie tekstu w razie gdyby wcześniej już coś tam było np. poprzedni wynik działania programu
+            textWynik.setText("")
+            liczenieTrasy()
+            Handler().postDelayed({
+                zrzutEkranu()
+            },50)
         })
     }
 }
