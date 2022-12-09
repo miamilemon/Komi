@@ -112,30 +112,29 @@ class MainActivity : AppCompatActivity() {
         trasa.setOnClickListener(View.OnClickListener {
             textWynik.setText("")
 
-            // This algorithm uses the nearest neighbor heuristic to solve the Traveling Salesman Problem using random matrix
+            // Algorytm działa na wyżej stworzonej macierzy, polega na heurystyce znajdywaniu najbliższego sąsiada
 
             val size = 8
-            // Create array to store the visited cities
+            // Tablica przechowująca odwiedzone miasta
             val visited = BooleanArray(size)
 
-            // Create array to store the shortest path
+            // Tablica przechowująca najkrótszą ścieżkę
             val path = IntArray(size)
 
-            // Assign starting city
+            // Miasto startowe
             var currentCity = 0
 
-            // Add starting city to the visited list
+            // Startowe miasto zostaje dodane do tablicy odwiedzonych miast
             visited[currentCity] = true
 
-            // Start the loop
             for (i in 0 until size - 1) {
-                // Create a variable to hold the shortest distance
+                // Zmienna przechowująca najkrótszy dystans, na początku jest to nieskończoność (w tym przypadku maksymalna wartość inta)
                 var min = Int.MAX_VALUE
 
-                // Create a variable to store the index of the city with the shortest distance
+                // Zmienna przechowująca indeks miasta z najkrótszym dystansem
                 var cityIndex = 0
 
-                // Find the city with the shortest distance
+                // Szukanie miasta z najkrótszym dystansem
                 for (j in 0 until size) {
                     if (!visited[j] && miasta[currentCity][j] < min) {
                         min = miasta[currentCity][j]
@@ -143,58 +142,60 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                // Add the city to the path and mark it as visited
+                // Dodanie miasta do ścieżki i oznaczenie jako odwiedzone
                 path[i] = cityIndex
                 visited[cityIndex] = true
 
-                // Update the current city
+                // Zmiana miasta na którym pracuje algorytm
                 currentCity = cityIndex
             }
 
-            // Add the last city to the path
+            // Dodanie ostatniego miasta do ścieżki
             path[size - 1] = 0
 
-            // Print the shortest path
-            //println("The shortest path is:")
+            //Wypisanie najkrótszej ścieżki
             for (i in 0 until size) {
                 textWynik.append("${path[i]} -> ")
             }
 
-            // Calculate and print the cost of the path
+            // Wypisanie całkowitej odległości od punkt pierwszego do ostatniego
             var cost = 0
             for (i in 0 until size - 1) {
                 cost += miasta[path[i]][path[i + 1]]
             }
             textWynik.append("\nCałkowita odległość: $cost")
 
+            //Zrzut ekranu do galerii
+            //Uzyskanie widoku view
             val activity = this
-            //Get the root view of the activity layout
             val view = activity.window.decorView.rootView
 
-            //Create a bitmap with the same size as the view
+            //Bitmapa na podstawie wartości uzyskanych z naszego view
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
 
-            //Create a canvas with the bitmap for drawing on
+            //Płótno/canvas które pozwoli nam na stworzenie obrazka
             val canvas = Canvas(bitmap)
 
-            //Draw the view on the canvas
+            //Wypełnienie canvasu widokiem view
             view.draw(canvas)
 
-            //Create a file to save the bitmap
+            //Stworzenie ścieżki dla pliku
             val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "screenshot.png"
+            //Stworzenie pliku
             val file = File(filePath)
-
+            //Zapis pliku
             try {
-                //Create a file output stream
+                //Stream do zapisu pliku
                 val stream = FileOutputStream(file)
 
-                //Compress the bitmap and save it to the file output stream
+                //Kompresja bitmapy do PNG
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
 
-                //Flush and close the output stream
+                //Zamknięcie streama zapisu żeby nie zajmowało nam miejsca w pamięci
                 stream.flush()
                 stream.close()
             } catch (e: Exception) {
+                //Wypisanie błędu w konsoli w przypadku niepowodzenia
                 e.printStackTrace()
             }
         })
