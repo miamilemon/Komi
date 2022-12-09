@@ -1,5 +1,6 @@
 package com.example.komiwojazer
 
+import android.app.PendingIntent.getActivity
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -13,6 +14,11 @@ import androidx.constraintlayout.widget.ConstraintSet.Layout
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Random
+import android.app.Activity
+import android.provider.MediaStore
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import java.net.URI
 
 
 /*
@@ -24,8 +30,8 @@ Do zrobienia(plan projektu):
 - Pokazywanie odległości przy zaznaczeniu miast [X]
 - Gdy są dwa te same miasta to nie można zmienić odległości [X]
 - Zmiana odległości według zasad działania [X]
-- Zrzut ekranu zapisywany do galerii [ ]
-- Algorytm, którego funkcjonalność działa [ ]
+- Zrzut ekranu zapisywany do galerii [X]
+- Algorytm, którego funkcjonalność działa [X]
  */
 
 
@@ -101,15 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         trasa.setOnClickListener(View.OnClickListener {
             textWynik.setText("")
-            /*    var screenshot: Bitmap? = null
-            val file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            screenshot = Bitmap.createBitmap(MyLayoutView.drawingCache)
-            val canvas = Canvas(screenshot)
-            MyLayoutView.draw(canvas)
-            val plik: FileOutputStream = FileOutputStream(file.absolutePath+"/komiwojazer.jpg")
-            screenshot.compress(Bitmap.CompressFormat.JPEG, 100, plik)
-            plik.flush()
-            plik.close()*/
+
             // This algorithm uses the nearest neighbor heuristic to solve the Traveling Salesman Problem using random matrix
 
             val size = 8
@@ -157,14 +155,44 @@ class MainActivity : AppCompatActivity() {
             for (i in 0 until size) {
                 textWynik.append("${path[i]} -> ")
             }
-            //println("0")
 
             // Calculate and print the cost of the path
             var cost = 0
             for (i in 0 until size - 1) {
                 cost += miasta[path[i]][path[i + 1]]
             }
-            textWynik.append("\nCost: $cost")
+            textWynik.append("\nCałkowita odległość: $cost")
+
+            val activity = this
+            //Get the root view of the activity layout
+            val view = activity.window.decorView.rootView
+
+            //Create a bitmap with the same size as the view
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+
+            //Create a canvas with the bitmap for drawing on
+            val canvas = Canvas(bitmap)
+
+            //Draw the view on the canvas
+            view.draw(canvas)
+
+            //Create a file to save the bitmap
+            val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "screenshot.png"
+            val file = File(filePath)
+
+            try {
+                //Create a file output stream
+                val stream = FileOutputStream(file)
+
+                //Compress the bitmap and save it to the file output stream
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
+
+                //Flush and close the output stream
+                stream.flush()
+                stream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
         })
 
