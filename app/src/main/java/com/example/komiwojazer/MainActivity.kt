@@ -99,8 +99,12 @@ class MainActivity : AppCompatActivity() {
                 if(spinnerA.selectedItemId.toInt() == spinnerB.selectedItemId.toInt()){
 
                 }else{
-                    miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
-                    miasta[spinnerB.selectedItemId.toInt()][spinnerA.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
+                    if(editDystans.text.toString().toInt()==0){
+
+                    }else{
+                        miasta[spinnerA.selectedItemId.toInt()][spinnerB.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
+                        miasta[spinnerB.selectedItemId.toInt()][spinnerA.selectedItemId.toInt()] = editDystans.getText().toString().toInt()
+                    }
                 }
             }
         }
@@ -193,9 +197,6 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
         })
-
-
     }
 }
